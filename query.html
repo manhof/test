@@ -1,0 +1,44 @@
+<?php
+    $con = mysqli_connect("localhost", "curluser", "password", "curl");
+
+    if (mysqli_connect_errno()) {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    }
+
+    $result = mysqli_query(
+        $con,
+        "SELECT date,url,download_speed,total_time FROM curl_data Where date >='2016-07-07' AND date <'2016-07-08'"
+    );
+?>
+
+<html>
+    <head></head>
+    <body>
+        <table>
+            <?php while ($row = mysqli_fetch_array($result)): ?>
+                <?php $date = $row['date']; ?>
+                <?php $url = $row['url']; ?>
+                <?php $ds = $row['download_speed']; ?>
+                <?php $tt = $row['total_time']; ?>
+
+                <tr>
+                    <td colspan="2"><?php echo $date; ?></td>
+                </tr>
+                <tr>
+                    <td>url:</td>
+                    <td><?php echo $url; ?></td>
+                </tr>
+                <tr>
+                    <td>Download Speed:</td>
+                    <td><?php echo $ds; ?></td>
+                </tr>
+                <tr>
+                    <td>Total Time</td>
+                    <td><?php echo $tt; ?></td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
+    </body>
+</html>
+
+<?php mysqli_close($con); ?>
